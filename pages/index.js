@@ -1,65 +1,83 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import React, { useRef, useState } from "react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import AddTag from "./components/addTag";
 
-export default function Home() {
+export default function Index() {
+  const addTag = useRef();
+  const [state, setState] = useState([]);
+  const handleAddTag = (tag) => {
+    setState([...state, tag]);
+  };
+  const showAddTag = () => {
+    addTag.current.changeShow();
+  };
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+    <>
+      <Flex
+        h="230px"
+        w="40%"
+        mx="auto"
+        pt="160px"
+        flexWrap="wrap"
+        justifyContent="center"
+      >
+        {state.map((item) => (
+          <a href={item.address} target="_blank" key={item.id}>
+            <Box
+              _hover={{ bgColor: "rgba(32, 33, 36, .1)", cursor: "pointer" }}
+              w="112px"
+              h="112px"
+              borderRadius="4px"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+              <Box
+                w="48px"
+                h="48px"
+                mx="auto"
+                bgColor="rgba(241, 243, 244, 1)"
+                borderRadius="50%"
+              >
+                <Box fontSize="30px" textAlign="center" w="48px" h="48px">
+                  <Box mt="12px" ml="12px">
+                    <img width="24px" height="24px" src={item.favUrl} alt="" />
+                  </Box>
+                </Box>
+              </Box>
+              <Text mt="7px" textAlign="center" fontSize="13px" color="#000">
+                {item.name}
+              </Text>
+            </Box>
           </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        ))}
+        <Box
+          _hover={{ bgColor: "rgba(32, 33, 36, .1)", cursor: "pointer" }}
+          w="112px"
+          h="112px"
+          borderRadius="4px"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          onClick={showAddTag}
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+          <Box
+            w="48px"
+            h="48px"
+            mx="auto"
+            bgColor="rgba(241, 243, 244, 1)"
+            borderRadius="50%"
+          >
+            <Box fontSize="30px" textAlign="center" w="48px" h="48px">
+              +
+            </Box>
+          </Box>
+          <Text mt="7px" textAlign="center" fontSize="13px" color="#000">
+            添加快捷方式
+          </Text>
+        </Box>
+      </Flex>
+      <AddTag ref={addTag} changeTag={handleAddTag} />
+    </>
+  );
 }
